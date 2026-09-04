@@ -6,6 +6,7 @@ from app.core.config import settings
 from app.core.database import raw_db_pool
 from app.core.logging import logger, setup_logging
 from app.core.redis import close_redis_pool, get_redis_client, setup_redis_streams
+from app.websocket.endpoints import router as ws_router
 
 
 @asynccontextmanager
@@ -45,6 +46,7 @@ app.add_middleware(
 )
 
 app.include_router(api_v1_router, prefix=settings.API_V1_PREFIX)
+app.include_router(ws_router)
 
 
 @app.get("/health", tags=["Health"])

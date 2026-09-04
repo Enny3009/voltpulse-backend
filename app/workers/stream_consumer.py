@@ -160,7 +160,7 @@ async def run_consumer_loop() -> None:
             await asyncio.sleep(1.0)
 
     logger.info("shutting_down_persister_worker", consumer=CONSUMER_NAME)
-    await redis.close()
+    await redis.aclose()
     await raw_db_pool.close()
 
 
