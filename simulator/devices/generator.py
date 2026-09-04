@@ -25,9 +25,12 @@ class DieselGeneratorSimulator(BaseDeviceSimulator):
 
         # Fault: Thermal Runaway (simulates coolant pump failure)
         if self.fault_active == "thermal_runaway":
-            self.temperature += random.uniform(3.0, 6.0)
+            # Heat up rapidly, but plateau near 160 C to simulate a seized engine
+            if self.temperature < 160.0:
+                self.temperature += random.uniform(3.0, 6.0)
+            else:
+                self.temperature += random.uniform(-0.5, 0.5)
         else:
-            # Gradual return to equilibrium
             target_temp = self.base_temperature + (power_kw * 0.15)
             self.temperature += (target_temp - self.temperature) * 0.1 + random.uniform(-0.2, 0.2)
 
