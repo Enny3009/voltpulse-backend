@@ -1,8 +1,7 @@
 import json
 import pytest
 from sqlalchemy import text
-from app.core.database import AsyncSessionFactory
-
+from app.core.database import AsyncSessionFactory, async_engine
 
 @pytest.mark.asyncio
 async def test_postgresql_partition_pruning():
@@ -10,6 +9,9 @@ async def test_postgresql_partition_pruning():
     Verifies that PostgreSQL's query planner executes partition pruning
     by scanning ONLY the partition matching the recorded_at filter.
     """
+    # Force SQLAlchemy to drop connections tied to the old event loop
+    await async_engine.dispose()
+    
     async with AsyncSessionFactory() as session:
         # Query targeting a single month
         query = text("""
