@@ -9,6 +9,7 @@ from app.api.v1.sites import router as sites_router
 from app.api.v1.device_types import router as device_types_router
 from app.api.v1.alert_rules import router as alert_rules_router
 from app.api.v1.anomalies import router as anomalies_router
+from app.api.v1.analytics import router as analytics_router
 
 api_v1_router = APIRouter()
 
@@ -22,3 +23,4 @@ api_v1_router.include_router(sites_router)
 api_v1_router.include_router(device_types_router)
 api_v1_router.include_router(alert_rules_router)
 api_v1_router.include_router(anomalies_router)
+api_v1_router.include_router(analytics_router)

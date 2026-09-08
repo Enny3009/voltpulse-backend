@@ -40,5 +40,14 @@ echo " VoltPulse Engine is running live!"
 echo " Press Ctrl+C in this terminal to stop all."
 echo "========================================="
 
+
+
+echo "Starting Celery Worker..."
+celery -A app.workers.celery_app worker --loglevel=info &
+
+echo "Starting Celery Beat Scheduler..."
+celery -A app.workers.celery_app beat --loglevel=info &
+
 # Keep the parent script alive
 wait
+
