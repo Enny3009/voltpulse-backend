@@ -13,9 +13,11 @@ from app.models.aggregate import EnergyAggregate
 from app.models.device import Device, DeviceStatus
 from app.models.telemetry import TelemetryReading
 from app.workers.celery_app import celery_app
+from app.core.database import AsyncSessionFactory, async_engine
 
 
 async def _check_device_connectivity_async():
+    await async_engine.dispose()
     logger.info("evaluating_device_connectivity_timeouts")
     threshold_time = datetime.now(timezone.utc) - timedelta(minutes=5)
 
@@ -70,6 +72,7 @@ async def _rollup_hourly_energy_async():
     Downsamples the previous hour's raw telemetry into energy_aggregates
     using the trapezoidal integration rule.
     """
+    await async_engine.dispose()
     now = datetime.now(timezone.utc)
     # Define previous hour window
     period_end = now.replace(minute=0, second=0, microsecond=0)

@@ -47,3 +47,5 @@ htmlcov/
 # Docker volumes
 pgdata/
 redisdata/
+
+repomix-output.xml
